@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Document</title>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/dat.gui.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="dome.js"></script>
+    <link rel="stylesheet" href="css/button.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div id="zzsc">
+    <canvas id="canvas" width="300px" height="300px" class="draggable" style="position:absolute;display:block;"></canvas>
+    <canvas id="myCanvas" width="920px" height="500px" class="draggable" style="position:absolute;display:none;"></canvas>
+    <canvas id="youcanvas" width="920px" height="600px" class="draggable" style="position:absolute;display:none;"></canvas>
+</div>
+<div class="leftbox">
+    <section>
+        <div class="left_particle">
+            <span class="size">大小</span>
+        </div>
+        <div class="left_jelly">
+            <span class="size">重置</span>
+        </div>
+        <div class="left_blobbs">
+            <span class="size">颜色</span>
+        </div>
+        <div class="left_chase">
+            <span class="size signed">钟表</span>
+        </div>
+    </section>
+</div>
+<div class="rightbox">
+    <section>
+        <div class="right_particle">
+            <span class="size white">拖拽</span>
+        </div>
+        <div class="right_jelly">
+            <span class="size">3D</span>
+        </div>
+        <div class="right_blobbs">
+            <span class="size">暂停</span>
+        </div>
+        <div class="right_chase">
+            <span class="size signed">切换</span>
+        </div>
+    </section>
+</div>
+<div class="alert">
+    时：<input type="text" id="id_hour" value="00"><br><br>
+    分：<input type="text" id="id_minutes" value="05"><br><br>
+    秒：<input type="text" id="id_seconds" value="40"><br><br>
+       <input type="button" value="确定" class="last">
+
+</div>
+</body>
+</html>

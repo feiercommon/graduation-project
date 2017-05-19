@@ -1,0 +1,75 @@
+html,body{
+	margin: 0;padding: 0;
+	width:100%;height:100%;
+	background-image: url(../img/1.jpg);
+}
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: none;
+}
+#zzsc {
+    width: 920px;
+    margin: 0px auto;
+}
+.leftbox{
+    width:100px;
+    height:500px;
+    position:fixed;
+    left:30px;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto 0;
+    z-index: 10;
+}
+.rightbox{
+    width:100px;
+    height:500px;
+    position:fixed;
+    right:120px;
+    top:0;
+    bottom:0;
+    margin:auto 0;
+    z-index: 10;
+}
+.size{
+    font-size:25px;
+    color:#ccc;
+    display:block;
+    line-height:80px;
+    text-align:center;
+    font-family: "HanHei SC", PingHei, "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight:bolder;
+}
+.signed{
+   color:#666;
+}
+.white{
+    color:#fff;
+}
+.alert{
+    width:250px;height:170px;
+    z-index:999;
+    background:#ccc;
+    position:absolute;
+    left:0;right:0;top:0;bottom:0;
+    margin:auto;
+    display:none;
+    padding:10px  10px 0;
+    border:5px solid #005eac;
+    border-radius:10px;
+}
+.alert input{
+    width:200px;
+    height:30px;
+}
+.alert .last{
+    width:50px;
+    height:30px;
+    background:#ff3289;
+}
+.draggable{
+	z-index: 9;
+}
