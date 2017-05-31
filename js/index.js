@@ -148,6 +148,7 @@ $(function(){
                 [0,0,0,0]
             ]//:
         ];
+    var audio = document.getElementById('music');
     function getTimecha(cxt,future){
         var future=times;
         var nums = [];
@@ -182,7 +183,6 @@ $(function(){
                 }
             }
         }
-
         //说明这是初始化
         if(currentNums.length ==0){
             currentNums = nums;
@@ -290,7 +290,7 @@ $(function(){
         if(flags1){
             window_width = 620;
             window_height = 300;
-            RADIUS = 4; //球半径
+            RADIUS = 3; //球半径
             NUMBER_GAP = 20; //数字之间的间隙
             u=0.65; //碰撞能量损耗系数
             width_x=200;width_y=80;
@@ -320,26 +320,204 @@ $(function(){
 
 
     //重置
+    // $(".left_jelly").click(function () {
+    //     $(".alert").css({display:"block"});
+    //     clearInterval(t)
+    // });
+    // $(".last").click(function () {
+    //     var id_time=new Date();
+    //     var hour=parseInt(document.getElementById("id_hour").value);
+    //     id_time.setHours(hour);
+    //     var minutes=parseInt(document.getElementById("id_minutes").value);
+    //     id_time.setMinutes(minutes);
+    //     var seconds=parseInt(document.getElementById("id_seconds").value);
+    //     id_time.setSeconds(seconds);
+    //     times=id_time;
+    //     $(".alert").css({display:"none"});
+    //     t=setInterval(function(){
+    //         //清空整个Canvas，重新绘制内容
+    //         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    //         getTimecha(context);
+    //     }, 50);
+    // });
     $(".left_jelly").click(function () {
-        $(".alert").css({display:"block"});
+        $(".divc").css({display:"block"});
         clearInterval(t)
     });
-    $(".last").click(function () {
-        var id_time=new Date();
-        var hour=parseInt(document.getElementById("id_hour").value);
-        id_time.setHours(hour);
-        var minutes=parseInt(document.getElementById("id_minutes").value);
-        id_time.setMinutes(minutes);
-        var seconds=parseInt(document.getElementById("id_seconds").value);
-        id_time.setSeconds(seconds);
-        times=id_time;
-        $(".alert").css({display:"none"});
+    var s,f,m,time;
+
+    function fix(num, length) {
+        return ('' + num).length < length ? ((new Array(length + 1)).join('0') + num).slice(-length) : '' + num;
+    }
+    var k=1;
+    var nums=[];
+    $(".buttonStart").click(function () {
+        ks=1;
+        document.getElementById("note").style.visibility="visible";
+        s=document.getElementById("s").value;
+        f=document.getElementById("f").value;
+        m=document.getElementById("m").value;
+        if(k==1){
+            k=0;
+            djs();
+        }else{
+            alert("请先停止上次的倒计时闹铃，再开始新的！");
+        }})
+    $(".buttonStop").click(function () {
+        clearInterval(time);
+            //k=0 进行倒计时；k=1音乐播放中
+            ks=0;//停止倒计时
+
+            audio.pause();
+            document.getElementById("note").innerHTML="倒计时正在进行！";
+            document.getElementById("note").style.visibility="hidden";
+            a=2;
+            k=1;//先ks赋值1在k开始循环
+    })
+    $(".buttonCancel").click(function () {
+        $(".divc").css({display:"none"});
+        audio.pause();
+        clearInterval(t);
+        clearInterval(time);
+        nums=[];
+        document.getElementById("note").innerHTML="倒计时正在进行！";
+        document.getElementById("note").style.visibility="hidden";
+        document.getElementById("m").value=0;
+        document.getElementById("f").value=0;
+        document.getElementById("s").value=0;
+        // worker.postMessage('false');
+        k=1;
+        ks=1;
         t=setInterval(function(){
             //清空整个Canvas，重新绘制内容
             context.clearRect(0, 0, context.canvas.width, context.canvas.height);
             getTimecha(context);
         }, 50);
     });
+
+    function djs(){
+            nums=[];
+
+            var data={
+                ks:ks,
+                s:s,
+                f:f,
+                m:m
+            }
+        var worker = new Worker('js/times.js');
+            worker.postMessage(JSON.stringify(data));
+            worker.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if(event.data=='false'){
+                   /* worker.postMessage('false');*/
+                    clearInterval(time);
+                    cancel();
+                }
+                m = data.m;
+                f = data.f;
+                s = data.s;
+            }
+
+            time=setInterval(function () {
+                nums=[];
+                s=fix(s.toString(), 2);
+                f=fix(f.toString(), 2);
+                m=fix(m.toString(), 2);
+                nums.push({num:Number(s.substring(0,1)?s.substring(0,1):0)})
+                nums.push({num:Number(s.substring(1)?s.substring(1):0)})
+                nums.push({num: 10});
+                nums.push({num:Number(f.substring(0,1)?f.substring(0,1):0)})
+                nums.push({num:Number(f.substring(1)?f.substring(1):0)})
+                nums.push({num: 10});
+                nums.push({num:Number(m.substring(0,1)?m.substring(0,1):0)})
+                nums.push({num:Number(m.substring(1)?m.substring(1):0)})
+
+                context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                reset(nums,context)
+
+            },50);
+        }
+        function reset(nums,cxt){
+            context.fillStyle=colorsChange;
+            var offsetX = width_x, offsetY = width_y;
+            for(var x = 0;x<nums.length;x++){
+                nums[x].offsetX = offsetX;
+                offsetX = drawSingleNumber(offsetX,offsetY,nums[x].num,cxt);
+                //两个数字连一块，应该间隔一些距离
+                if(x<nums.length-1){
+                    if((nums[x].num!=10) &&(nums[x+1].num!=10)){
+                        offsetX+=NUMBER_GAP;
+                    }
+                }
+            }
+            //说明这是初始化
+            if(currentNums.length ==0){
+                currentNums = nums;
+            }else{
+                //进行比较
+                for(var index = 0;index<currentNums.length;index++){
+                    if(currentNums[index].num!=nums[index].num){
+                        //不一样时，添加彩色小球
+                        addBalls(nums[index]);
+                        currentNums[index].num=nums[index].num;
+                    }
+                }
+            }
+            renderBalls(cxt);
+            updateBalls();
+
+
+            /*setInterval(function () {
+                if(ks==1){//停止或开始
+                    document.getElementById("m").value=m;
+                    if(m>0){
+                        m--;
+                    }else{
+                        if(f>0){
+                            f--;
+                            document.getElementById("f").value=f;
+                            m=59;
+                        }else{
+                            if(s>0){
+                                s--;
+                                document.getElementById("s").value=s;
+                                f=59;
+                            }else{
+                                cancel();
+                            }
+                        }
+                    }
+                }//停止或开始
+            },1000)*/
+            return;
+
+        }
+
+    function cancel(){
+
+        document.getElementById('music').src="music/"+document.getElementById("v").value+".mp3";
+        audio.play();
+        document.getElementById("note").innerHTML="倒计时已结束！！";
+        a=1;
+        action();
+    }
+
+    function action(){
+        if(a==1){
+            document.getElementById("note").style.visibility="visible";
+            a=0;
+        }else if(a==0){
+            document.getElementById("note").style.visibility="hidden";
+            a=1;
+        }
+        }
+
+            /*$(".alert").css({display:"none"});
+            t=setInterval(function(){
+                //清空整个Canvas，重新绘制内容
+                context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                getTimecha(context);
+            }, 50);*/
 
 
     //点击显示钟表

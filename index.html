@@ -5,12 +5,16 @@
     <title>Document</title>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/dat.gui.min.js"></script>
+    <script src="js/dome.js"></script>
+    <script src="js/times.js"></script>
+
     <script src="js/index.js"></script>
-    <script src="dome.js"></script>
+    <!--<script src="js/js.js"></script>-->
     <link rel="stylesheet" href="css/button.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/css.css">
 
 </head>
 <body>
@@ -51,11 +55,45 @@
         </div>
     </section>
 </div>
-<div class="alert">
-    时：<input type="text" id="id_hour" value="00"><br><br>
-    分：<input type="text" id="id_minutes" value="05"><br><br>
-    秒：<input type="text" id="id_seconds" value="40"><br><br>
-       <input type="button" value="确定" class="last">
+<!--<div class="alert">-->
+    <!--时：<input type="text" id="id_hour" value="00"><br><br>-->
+    <!--分：<input type="text" id="id_minutes" value="00"><br><br>-->
+    <!--秒：<input type="text" id="id_seconds" value="00"><br><br>-->
+       <!--<input type="button" value="确定" class="last">-->
+
+<!--</div>-->
+<div class="divc" style="display:none;z-index:11">
+    <label style="font-weight: bold;">请选择铃声：</label>
+    <select id="v" style="height:30px;border-radius: 4px;">
+        <option value="1">铃声 一 </option>
+        <option value="2">铃声 二</option>
+        <option value="3">铃声 三</option>
+    </select>
+    </br>
+    </br>
+
+    <label style="font-weight:bold;margin-left: -22%;">倒计时：</label></br></br>
+
+    <input id="s" value="0" class="inputc">
+    <label style="font-weight: bold;">时</label>
+    </br>
+    </br>
+
+    <input id="f" value="0" class="inputc">
+    <label style="font-weight: bold;">分</label>
+    </br>
+    </br>
+
+    <input id="m" value="0" class="inputc">
+    <label style="font-weight: bold;">秒</label>
+    </br>
+    </br>
+    <butaton  class="buttonCancel">关闭</butaton>
+
+    <button  class="buttonStart">开 始</button>
+    <button  class="buttonStop"style="margin-right: -15%;">停止</button>
+    <audio id="music" controls="controls" loop="loop" style="display: none;"></audio>
+    <label id="note" class="notec">倒计时正在进行！</label>
 
 </div>
 </body>
